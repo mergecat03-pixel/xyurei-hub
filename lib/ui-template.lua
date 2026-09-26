@@ -97,7 +97,7 @@ local UI = {}
 -- 3.12: Steal An Egg's offline money / rift switches.
 -- 3.15: the report card's category, confirmation popup and validation strings.
 UI.VERSION = "3.15"
-UI.BRAND = "SELUX"
+UI.BRAND = "XYUREI X-FLOID"
 UI.DISCORD = "discord.gg/ARdpzFuKMm"
 UI.REPO = "seltonmt012/sel01-rbx"
 
