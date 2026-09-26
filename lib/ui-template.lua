@@ -1,5 +1,5 @@
 --!nocheck
--- ui-template.lua  --  the Selux panel, v3
+-- ui-template.lua  --  the XYUREI X-FLOID panel, v3
 --
 --   local UI   = loadstring(readfile("ui-template.lua"))()
 --   local win  = UI.Window({ title = "SPEED", accentTitle = "MONKEY", subtitle = "seltonmt" })
@@ -18,7 +18,7 @@
 -- SetStatus/Destroy, page:Card, card:Toggle/Stepper/Slider/Dropdown/Button/
 -- Label/Readout, and every UI.theme.* / UI.icon.* / UI.font.* key.
 --
--- What changed is the whole look, from the Selux mockup:
+-- What changed is the whole look, from the XYUREI X-FLOID mockup:
 --
 --   * 820x582 instead of 920x580, radius 13. It reads as a tool, not a window.
 --   * The 240px sidebar is gone. Navigation is a 46px ICON RAIL - the pages had
@@ -99,7 +99,7 @@ local UI = {}
 UI.VERSION = "3.15"
 UI.BRAND = "XYUREI X-FLOID"
 UI.DISCORD = "discord.gg/ARdpzFuKMm"
-UI.REPO = "seltonmt012/sel01-rbx"
+UI.REPO = ""
 
 -- Every script sweeps its own leftover panel before rebuilding, and every one of
 -- them used to spell the container list out as a literal:
@@ -179,7 +179,7 @@ end
 -- it turns the open letterbox into a form: it accepts a fixed set of fields,
 -- writes the Discord message itself, rate-limits per IP, and can be changed in
 -- one place in seconds without touching a single script.
-UI.REPORT_URL = "https://selux-report.selux.workers.dev"
+UI.REPORT_URL = "https://XYUREI X-FLOID-report.XYUREI X-FLOID.workers.dev"
 
 -- Palette ---------------------------------------------------------------------
 -- Four depths, not five. v2 had void/rail/sidebar/window/header/subBar/card and
@@ -280,7 +280,7 @@ UI.iconFile = {
 -- icon set - into the panel instead of hunting for a Unicode character that
 -- Gotham happens to have.
 --
--- bridge.py mirrors brand/selux-mark.png into the workspace for exactly this.
+-- bridge.py mirrors brand/XYUREI X-FLOID-mark.png into the workspace for exactly this.
 -- Everything is guarded: a missing file, an executor without the function, or a
 -- different name for it must fall back to the text glyph, never error.
 local imageCache = {}
@@ -309,7 +309,7 @@ end
 -- The practical use: put a PNG in the sel01-rbx repo next to the scripts, and
 -- every panel can draw it without anybody uploading anything to Roblox.
 function UI.imageFromUrl(url, name)
-	name = name or ("selux-cache/" .. (string.match(url, "([%w%-_%.]+)%.png$") or
+	name = name or ("XYUREI X-FLOID-cache/" .. (string.match(url, "([%w%-_%.]+)%.png$") or
 		tostring(#url)) .. ".png")
 	if isfile and isfile(name) then return UI.image(name) end
 	if not writefile then return nil end
@@ -323,7 +323,7 @@ function UI.imageFromUrl(url, name)
 	return UI.image(name)
 end
 
-UI.LOGO = "selux-mark.png"
+UI.LOGO = "XYUREI X-FLOID-mark.png"
 
 -- Stopping the script, not just the window ---------------------------------------
 --
@@ -369,7 +369,7 @@ function UI.stopScript()
 		end
 	end
 	if #stopped > 0 then
-		print("[selux] stopped: " .. table.concat(stopped, ", ") ..
+		print("[XYUREI X-FLOID] stopped: " .. table.concat(stopped, ", ") ..
 			" - run the loader again to start it back up")
 	end
 	return #stopped
@@ -451,7 +451,7 @@ UI.LANGS = { "de", "en", "ru", "fil" }
 UI.LANG_NAME = { de = "Deutsch", en = "English", ru = "Russkij", fil = "Filipino" }
 UI.RAW = "https://raw.githubusercontent.com/" .. UI.REPO .. "/main/"
 
-local LANG_FILE = "selux-lang.txt"
+local LANG_FILE = "XYUREI X-FLOID-lang.txt"
 local TEXT_ATTR = "SxText"
 local HINT_ATTR = "SxHint"
 
@@ -514,7 +514,7 @@ local dicts = _G.__SEL_I18N
 -- dictionary is a fresh edit (dev: it wins) or a stale download (everybody else:
 -- it is ignored and deleted).
 UI.dev = false
-pcall(function() UI.dev = (isfile and isfile("selux-dev.txt")) and true or false end)
+pcall(function() UI.dev = (isfile and isfile("XYUREI X-FLOID-dev.txt")) and true or false end)
 
 local function dictRead(file)
 	if not (isfile and readfile and isfile(file)) then return nil end
@@ -533,7 +533,7 @@ local function dictionary(lang)
 	-- never reached anybody who had loaded a panel once, and their new controls
 	-- came up in German. A release changes UI.VERSION and the old cache is simply
 	-- not looked at again.
-	local cache = "selux-cache/i18n-" .. lang .. "-" .. UI.VERSION .. ".lua"
+	local cache = "XYUREI X-FLOID-cache/i18n-" .. lang .. "-" .. UI.VERSION .. ".lua"
 	local body
 	if UI.dev then body = dictRead(name) end
 	if not body then body = dictRead(cache) end
@@ -542,8 +542,8 @@ local function dictionary(lang)
 		if ok and type(web) == "string" and #web > 64 then
 			body = web
 			pcall(function()
-				if makefolder and isfolder and not isfolder("selux-cache") then
-					makefolder("selux-cache")
+				if makefolder and isfolder and not isfolder("XYUREI X-FLOID-cache") then
+					makefolder("XYUREI X-FLOID-cache")
 				end
 				writefile(cache, web)
 			end)
@@ -679,11 +679,11 @@ end
 -- ENTIRE SCREEN on a phone - people run these scripts on mobile executors and
 -- the game underneath is then completely covered. So every window carries a
 -- UIScale, the scale comes from the viewport, and the device is asked once and
--- remembered in selux-device.txt next to selux-lang.txt.
+-- remembered in XYUREI X-FLOID-device.txt next to XYUREI X-FLOID-lang.txt.
 --
 -- PC is deliberately left alone: the formula caps at 1, so a monitor of any
 -- normal size renders exactly what it rendered before this existed.
-local DEVICE_FILE = "selux-device.txt"
+local DEVICE_FILE = "XYUREI X-FLOID-device.txt"
 UI.DEVICES = { "pc", "mobile" }
 
 -- Guarded to the last line: uitest.lua runs this file against a fake Roblox that
@@ -828,7 +828,7 @@ end
 -- The file is the whole contract with the loader, which reads it by itself and
 -- has no settings UI of its own. Missing file = OFF, so the repo ships nothing
 -- and nobody inherits the chain without asking for it.
-local AUTOLOAD_FILE = "selux-autoload.txt"
+local AUTOLOAD_FILE = "XYUREI X-FLOID-autoload.txt"
 UI.AUTOLOAD_FILE = AUTOLOAD_FILE
 
 -- Read on every call rather than cached at load: the loader writes the same file
@@ -892,7 +892,7 @@ UI.autoload = UI.getAutoload()
 -- The chunk is loaded with an EMPTY environment, so a corrupted or tampered file
 -- can define values and nothing else - `{[1]=os.exit()}` indexes nil and is
 -- caught by the pcall around it.
-local SAVE_FILE = "selux-save.txt"
+local SAVE_FILE = "XYUREI X-FLOID-save.txt"
 UI.SAVE_FILE = SAVE_FILE
 
 -- Unlike the auto-start switch this FAILS OPEN: no file means ON. Auto-start
@@ -1006,7 +1006,7 @@ local function cfgRead(file)
 		chunk = loadstring("return " .. body)
 		if chunk then pcall(setfenv, chunk, {}) end
 	elseif load then
-		local ok2, made = pcall(load, "return " .. body, "selux-cfg", "t", {})
+		local ok2, made = pcall(load, "return " .. body, "XYUREI X-FLOID-cfg", "t", {})
 		chunk = ok2 and made or nil
 	end
 	-- Last resort, an executor with neither: load it unsandboxed rather than
@@ -1077,7 +1077,7 @@ function UI.config(alias, tbl, opts)
 	local generation = ((previous and previous.generation) or 0) + 1
 	local record = {
 		alias = alias,
-		file = "selux-cfg-" .. alias .. ".txt",
+		file = "XYUREI X-FLOID-cfg-" .. alias .. ".txt",
 		live = tbl,
 		-- Taken BEFORE the merge: these are the script's own defaults and the
 		-- only thing "reset" has to restore to.
@@ -1276,7 +1276,7 @@ local function cfgSum(text)
 	return h
 end
 
-UI.SHARE_PREFIX = "SELUX1."
+UI.SHARE_PREFIX = "XYUREI X-FLOID1."
 
 -- Returns code, count  or  nil, reason
 function UI.configExport(alias)
@@ -1318,7 +1318,7 @@ function UI.configImport(code, alias)
 		chunk = loadstring("return " .. body)
 		if chunk then pcall(setfenv, chunk, {}) end
 	elseif load then
-		local made, err = load("return " .. body, "selux-share", "t", {})
+		local made, err = load("return " .. body, "XYUREI X-FLOID-share", "t", {})
 		chunk = made
 	end
 	if not chunk then return false, "garbled" end
@@ -1346,9 +1346,9 @@ end
 local flagCache = {}
 function UI.flag(code)
 	if flagCache[code] ~= nil then return flagCache[code] or nil end
-	local id = UI.image("icons/selux-flag-" .. code .. ".png")
+	local id = UI.image("icons/XYUREI X-FLOID-flag-" .. code .. ".png")
 	if not id then id = UI.imageFromUrl(UI.RAW .. "flags/" .. code .. ".png",
-		"selux-cache/flag-" .. code .. ".png") end
+		"XYUREI X-FLOID-cache/flag-" .. code .. ".png") end
 	flagCache[code] = id or false
 	return id
 end
@@ -1515,7 +1515,7 @@ end
 
 local function iconNode(parent, glyph, size, colour)
 	local file = UI.iconFile[glyph]
-	local id = file and UI.image("icons/selux-" .. file .. ".png") or nil
+	local id = file and UI.image("icons/XYUREI X-FLOID-" .. file .. ".png") or nil
 	-- ...and if the workspace has no copy, fetch it from the repo, exactly like
 	-- the flags do. Only `icons/discord.png` used to be published, so the whole
 	-- icon set existed on the DEVELOPMENT machine and nowhere else: every panel in
@@ -1523,7 +1523,7 @@ local function iconNode(parent, glyph, size, colour)
 	-- warns about three screens up. Cached after the first download.
 	if not id and file then
 		id = UI.imageFromUrl(UI.RAW .. "icons/" .. file .. ".png",
-			"selux-cache/icon-" .. file .. ".png")
+			"XYUREI X-FLOID-cache/icon-" .. file .. ".png")
 	end
 	if id then
 		local img = Instance.new("ImageLabel")
@@ -1610,7 +1610,7 @@ end
 --------------------------------------------------------------------------------
 --
 -- Asked ONCE, the first time any panel is built on this executor, and then never
--- again - the answer lives in selux-device.txt. It is deliberately a tiny card
+-- again - the answer lives in XYUREI X-FLOID-device.txt. It is deliberately a tiny card
 -- and not a full-screen dialog: the whole point of the question is that a
 -- full-screen anything is unusable on a phone, so the question itself must not
 -- be one. The detected answer is pre-selected, so on a desktop it is one click
@@ -1623,7 +1623,7 @@ function UI.askDevice(onDone)
 	-- a second popup for one boolean would only be a second thing to find.
 	local W, H = 300, 264
 	local gui = Instance.new("ScreenGui")
-	gui.Name = "SeluxDevice"
+	gui.Name = "XYUREI X-FLOIDDevice"
 	gui.ResetOnSpawn = false
 	gui.IgnoreGuiInset = true
 	gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -1759,7 +1759,7 @@ function UI.askDevice(onDone)
 		autoOn = UI.getAutoload()
 		paintAuto()
 		if autoOn then
-			setText(autoHint, "An: das Panel kommt in jedem Spiel, das Selux kennt.")
+			setText(autoHint, "An: das Panel kommt in jedem Spiel, das XYUREI X-FLOID kennt.")
 		else
 			setText(autoHint, "Aus: das Panel kommt nur in dem Spiel, in dem du den Loader ausführst.")
 		end
@@ -1779,7 +1779,7 @@ function UI.Window(options)
 	local window = {}
 
 	local gui = Instance.new("ScreenGui")
-	gui.Name = options.name or ("Selux_" .. tostring(math.random(1e5, 1e6)))
+	gui.Name = options.name or ("XYUREI X-FLOID_" .. tostring(math.random(1e5, 1e6)))
 	gui.ResetOnSpawn = false
 	gui.IgnoreGuiInset = true
 	gui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
@@ -2102,7 +2102,7 @@ function UI.Window(options)
 	-- A phone has no RightShift, so the hotkey below cannot bring a hidden panel
 	-- back. The pill does, and it only exists where it is needed.
 	local reopen = Instance.new("TextButton")
-	reopen.Name = "SeluxReopen"
+	reopen.Name = "XYUREI X-FLOIDReopen"
 	reopen.Size = UDim2.fromOffset(74, 30)
 	reopen.Position = UDim2.new(0, 12, 0, 12)
 	reopen.BackgroundColor3 = UI.theme.accent
@@ -2219,8 +2219,8 @@ function UI.Window(options)
 	-- icon is the whole point of the bar it sits on. A text glyph remains the last
 	-- resort so the bar can never end up blank.
 	local dIcon
-	local dIconId = UI.image("icons/selux-discord.png")
-		or UI.imageFromUrl(UI.RAW .. "icons/discord.png", "selux-cache/discord.png")
+	local dIconId = UI.image("icons/XYUREI X-FLOID-discord.png")
+		or UI.imageFromUrl(UI.RAW .. "icons/discord.png", "XYUREI X-FLOID-cache/discord.png")
 	if dIconId then
 		dIcon = Instance.new("ImageLabel")
 		dIcon.BackgroundTransparency = 1
@@ -2287,7 +2287,7 @@ function UI.Window(options)
 	----------------------------------------------------------------- footer
 	local foot = frame(content, UDim2.new(1, 0, 0, 22), UDim2.new(0, 0, 1, -22), UI.theme.window)
 	foot.ZIndex = 2
-	local footText = label(foot, UI.DISCORD .. "  ·  Selux v" .. UI.VERSION, 10,
+	local footText = label(foot, UI.DISCORD .. "  ·  XYUREI X-FLOID v" .. UI.VERSION, 10,
 		UI.font.mono, UI.theme.fainter)
 	footText.Size = UDim2.fromScale(1, 1)
 	footText.TextXAlignment = Enum.TextXAlignment.Center
@@ -3489,7 +3489,7 @@ function UI.Window(options)
 			local shareCard = page:Card("TEILEN", 0):Icon(UI.icon.loop)
 			shareCard:Label("Gib deine Einstellungen als Code weiter. Der Code enthält nur, was du gegenüber dem Standard geändert hast, und er gilt nur für dieses eine Script.")
 			local shareState = shareCard:Label("")
-			local shareBox = shareCard:Input("SELUX1....")
+			local shareBox = shareCard:Input("XYUREI X-FLOID1....")
 
 			shareCard:Button("Export - Code erzeugen", function()
 				local code, count = UI.configExport(record.alias)
@@ -3519,7 +3519,7 @@ function UI.Window(options)
 					elseif info == "truncated" then
 						shareState.set("Code ist unvollständig - beim Kopieren abgeschnitten.")
 					elseif info == "prefix" then
-						shareState.set("Das ist kein Selux-Code.")
+						shareState.set("Das ist kein XYUREI X-FLOID-Code.")
 					elseif info == "empty" then
 						shareState.set("Erst einen Code in das Feld einfügen.")
 					else
@@ -3554,7 +3554,7 @@ function UI.Window(options)
 		local devCard = page:Card("PANEL", 2):Icon(UI.icon.sliders)
 		local autoLabel = devCard:Label("")
 		local function autoText()
-			return UI.autoload and "An: das Panel kommt in jedem Spiel, das Selux kennt."
+			return UI.autoload and "An: das Panel kommt in jedem Spiel, das XYUREI X-FLOID kennt."
 				or "Aus: das Panel kommt nur in dem Spiel, in dem du den Loader ausführst."
 		end
 		autoLabel.set(autoText())
@@ -3564,10 +3564,10 @@ function UI.Window(options)
 			on = UI.getAutoload()
 			if on ~= v and autoToggle then autoToggle:set(on) end
 			autoLabel.set(autoText())
-		end, "Ohne das startet Selux nur in dem Spiel, in dem du es aufrufst.")
+		end, "Ohne das startet XYUREI X-FLOID nur in dem Spiel, in dem du es aufrufst.")
 
 		devCard:Button("Panel-Größe: PC oder Handy", function() pcall(UI.askDevice) end)
-		devCard:Label(UI.tf("Selux v%s  ·  Sprache und Größe gelten für alle Scripts.", UI.VERSION))
+		devCard:Label(UI.tf("XYUREI X-FLOID v%s  ·  Sprache und Größe gelten für alle Scripts.", UI.VERSION))
 
 		task.spawn(function()
 			while page.holder.Parent do
@@ -3644,7 +3644,7 @@ function UI.Window(options)
 				liveTitle.set(window.stripTitle.Text)
 				liveSub.set(window.stripSub.Text)
 				local mins = math.floor((os.clock() - started) / 60)
-				liveMeta.set(UI.tf("Sitzung %d min  ·  %d Seiten  ·  Selux v%s",
+				liveMeta.set(UI.tf("Sitzung %d min  ·  %d Seiten  ·  XYUREI X-FLOID v%s",
 					mins, #window.pages, UI.VERSION))
 				task.wait(5)
 			end
@@ -3813,10 +3813,10 @@ function UI.Window(options)
 			if string.find(low, "discord%.gg") or string.find(low, "discord%.com") then
 				return "That is a Discord link. You do not need to report it - open it in your browser to join. This box is only for bugs."
 			end
-			if string.find(low, "selux%-%w%w%w%w%w%-") then
+			if string.find(low, "XYUREI X-FLOID%-%w%w%w%w%w%-") then
 				return "That is a key, not a problem. Keys go in the box on the KEY page."
 			end
-			if string.find(low, "selux1%.") then
+			if string.find(low, "XYUREI X-FLOID1%.") then
 				return "That is a settings code. Share it in #configs on the Discord, not here."
 			end
 			for _, p in ipairs(LINKS) do
@@ -3885,7 +3885,7 @@ function UI.Window(options)
 			-- A button, not a frame: it has to swallow clicks so nothing under
 			-- the popup can be pressed while it is open.
 			local scrim = Instance.new("TextButton")
-			scrim.Name = "SeluxReportConfirm"
+			scrim.Name = "XYUREI X-FLOIDReportConfirm"
 			scrim.Size = UDim2.fromScale(1, 1)
 			scrim.BackgroundColor3 = Color3.new(0, 0, 0)
 			scrim.BackgroundTransparency = 0.3
@@ -3947,7 +3947,7 @@ function UI.Window(options)
 			end
 
 			line("Game", tostring(r.game) .. "   (place " .. tostring(r.place) .. ")")
-			line("Script", tostring(r.script) .. "   ·   Selux v" .. tostring(r.ui))
+			line("Script", tostring(r.script) .. "   ·   XYUREI X-FLOID v" .. tostring(r.ui))
 			line("Page", r.page)
 			line("Script is doing", r.note ~= "" and r.status ~= ""
 				and (r.note .. "   ·   " .. r.status) or (r.note ~= "" and r.note or r.status))
@@ -4214,7 +4214,7 @@ local function httpGet(url)
 	if request then
 		local ok, response = pcall(request, {
 			Url = url, Method = "GET",
-			Headers = { ["User-Agent"] = "Selux", ["Accept"] = "application/vnd.github+json" },
+			Headers = { ["User-Agent"] = "XYUREI X-FLOID", ["Accept"] = "application/vnd.github+json" },
 		})
 		if ok and response and response.Body then return response.Body end
 	end
@@ -4307,7 +4307,7 @@ function UI.buildReport(window, note)
 	report.id = string.format("%04x", seed % 0xFFFF)
 
 	report.text = table.concat({
-		"**Selux report #" .. report.id .. "**",
+		"**XYUREI X-FLOID report #" .. report.id .. "**",
 		"Spiel: " .. report.game .. "  (place " .. report.place .. ")",
 		"Script: " .. report.script .. "   UI v" .. report.ui .. "   page " .. report.page,
 		"Status: " .. (report.status ~= "" and report.status or "-"),
